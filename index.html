@@ -1,0 +1,727 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotización Alfombrando</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    :root {
+        --bg: #eef2f6;
+        --panel: #ffffff;
+        --ink: #1f2937;
+        --ink-soft: #475467;
+        --line: #d0d5dd;
+        --brand: #263548;
+        --brand-strong: #1b2735;
+        --ok: #1f7a4d;
+        --ok-strong: #18603d;
+        --danger: #b42318;
+        --danger-strong: #912018;
+    }
+
+    body {
+        background: radial-gradient(circle at top right, #f7fafc 0%, var(--bg) 55%, #e8edf3 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--ink);
+    }
+
+    .app-card {
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .app-card .card-header {
+        background: linear-gradient(120deg, var(--brand), #314863);
+        color: #fff;
+        border-bottom: none;
+    }
+
+    .cotizacion-container {
+        background: var(--panel);
+        padding: 36px;
+        max-width: 940px;
+        margin: 28px auto 40px;
+        border: 1px solid var(--line);
+        border-left: 6px solid var(--brand);
+        box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+        border-radius: 12px;
+        position: relative;
+    }
+
+    .logo {
+        max-height: 78px;
+        width: auto;
+    }
+
+    .tabla-wrapper {
+        margin-top: 1.5rem;
+        border: 1px solid #e4e7ec;
+        border-radius: 14px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+    }
+
+    .tabla-cotizacion {
+        margin: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tabla-cotizacion thead th {
+        background: #f8fafc;
+        text-align: left;
+        font-weight: 700;
+        color: var(--brand-strong);
+        border: none;
+        border-bottom: 1px solid #e4e7ec;
+        font-size: 0.82rem;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        padding: 12px 14px;
+        white-space: normal;
+    }
+
+    .tabla-cotizacion td {
+        vertical-align: middle;
+        border: none;
+        border-bottom: 1px solid #f0f2f5;
+        padding: 14px;
+    }
+
+    .tabla-cotizacion tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .tabla-cotizacion tbody tr:hover td {
+        background: #fcfdff;
+    }
+
+    .tabla-cotizacion .tabla-vacia td {
+        text-align: center;
+        color: #667085;
+        padding: 36px 12px;
+    }
+
+    .seleccion-iva-cell {
+        min-width: 150px;
+    }
+
+    .seleccion-iva-wrap {
+        display: flex;
+        align-items: center;
+    }
+
+    .iva-mini-list {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .iva-mini-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 6px;
+        border: 1px solid #d0d5dd;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        color: #344054;
+        background: #fff;
+    }
+
+    .iva-mini-item input.form-check-input {
+        margin: 0;
+        width: 0.9em;
+        height: 0.9em;
+    }
+
+    .cantidad-wrap {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1.2;
+    }
+
+    .cantidad-unidad {
+        font-size: 0.78rem;
+        color: var(--ink-soft);
+    }
+
+    .valor-principal {
+        font-variant-numeric: tabular-nums;
+    }
+
+    .acciones-wrap {
+        display: inline-flex;
+        gap: 6px;
+    }
+
+    .btn-tabla-accion {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d0d5dd;
+        background: #fff;
+        color: #344054;
+    }
+
+    .btn-tabla-accion:hover,
+    .btn-tabla-accion:focus {
+        background: #f2f4f7;
+        border-color: #98a2b3;
+        color: #182230;
+    }
+
+    .btn-tabla-accion.btn-tabla-danger:hover,
+    .btn-tabla-accion.btn-tabla-danger:focus {
+        background: #fef3f2;
+        border-color: #fecdca;
+        color: #b42318;
+    }
+
+    .descripcion-producto {
+        line-height: 1.25;
+    }
+
+    .descripcion-producto-titulo {
+        font-weight: 700;
+        color: var(--brand-strong);
+    }
+
+    .descripcion-producto-subtitulo {
+        margin-top: 2px;
+        color: #475467;
+        font-size: 0.92rem;
+    }
+
+    .total-box {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--brand-strong);
+        border-top: 2px solid var(--line);
+        padding-top: 12px;
+    }
+
+    .btn {
+        transition: background-color .2s ease, border-color .2s ease;
+    }
+
+    .btn-primary {
+        background-color: var(--brand);
+        border-color: var(--brand);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: var(--brand-strong);
+        border-color: var(--brand-strong);
+    }
+
+    .btn-success {
+        background-color: var(--ok);
+        border-color: var(--ok);
+    }
+
+    .btn-success:hover,
+    .btn-success:focus {
+        background-color: var(--ok-strong);
+        border-color: var(--ok-strong);
+    }
+
+    .btn-danger {
+        background-color: var(--danger);
+        border-color: var(--danger);
+    }
+
+    .btn-danger:hover,
+    .btn-danger:focus {
+        background-color: var(--danger-strong);
+        border-color: var(--danger-strong);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #98a2b3;
+        box-shadow: 0 0 0 0.2rem rgba(52, 64, 84, 0.12);
+    }
+
+    .producto-img {
+        width: 150px;
+        max-width: 100%;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+    }
+
+    .campo-imagen .form-control {
+        min-height: 52px;
+    }
+
+    .nota-rapida {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px 16px;
+        min-height: 150px;
+        background-color: #f8fafc;
+        background-image:
+            linear-gradient(#e5e7eb 1px, transparent 1px),
+            linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+        background-size: 16px 16px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        position: relative;
+    }
+
+    .nota-rapida .nota-delete {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 2px 6px;
+        line-height: 1;
+        font-size: 0.75rem;
+    }
+
+    .nota-rapida-title {
+        padding-left: 22px;
+    }
+
+    .nota-rapida-title {
+        font-weight: 700;
+        color: var(--brand-strong);
+        margin-bottom: 8px;
+    }
+
+    .nota-rapida-texto {
+        white-space: pre-wrap;
+        color: var(--ink);
+        min-height: 90px;
+    }
+
+    .footer-comercial {
+        margin-top: 26px;
+        padding-top: 14px;
+        border-top: 1px solid #d0d5dd;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: #475467;
+        text-align: center;
+        letter-spacing: 0.01em;
+    }
+
+    .descuento-section {
+        display: none;
+        justify-content: space-between;
+    }
+
+    .descuento-section.visible {
+        display: flex;
+    }
+
+    .iva-section {
+        display: none;
+        justify-content: space-between;
+    }
+
+    .iva-section.visible {
+        display: flex;
+    }
+
+    .descuento-opcion-control {
+        min-width: 170px;
+    }
+
+    .opcion-header-cell {
+        background: #f8fafc;
+    }
+
+    .opcion-resumen-row td {
+        background: #fcfcfd;
+    }
+
+    .opcion-resumen-inline {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .opcion-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        border: 1px solid #e4e7ec;
+        color: #344054;
+        background: #fff;
+    }
+
+    .opcion-pill.opcion-pill-danger {
+        color: #b42318;
+        border-color: #fecdca;
+        background: #fef3f2;
+    }
+
+    .opcion-pill.opcion-pill-iva {
+        color: #175cd3;
+        border-color: #b2ddff;
+        background: #eff8ff;
+    }
+
+    @media (max-width: 768px) {
+        .cotizacion-container {
+            margin: 18px 12px 24px;
+            padding: 20px;
+        }
+
+        .logo {
+            max-height: 56px;
+        }
+    }
+
+    @media print {
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        html, body {
+            background: #fff !important;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        body {
+            background: #fff;
+            color: #111827;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .cotizacion-container {
+            margin: 0;
+            max-width: 100%;
+            box-shadow: none;
+            border: none;
+            border-radius: 0;
+        }
+
+        .tabla-cotizacion th:first-child,
+        .tabla-cotizacion td:first-child,
+        .tabla-cotizacion th:last-child,
+        .tabla-cotizacion td:last-child {
+            display: none;
+        }
+
+        .descuento-section {
+            display: none !important;
+        }
+
+        .descuento-section.visible {
+            display: flex !important;
+        }
+
+        .iva-section {
+            display: none !important;
+        }
+
+        .iva-section.visible {
+            display: flex !important;
+        }
+
+        .tabla-wrapper {
+            box-shadow: none;
+            border: 1px solid #d0d5dd;
+        }
+
+        .tabla-cotizacion thead th {
+            background-color: #f1f5f9 !important;
+            color: #1f2937 !important;
+        }
+
+        .nota-total-row {
+            display: flex !important;
+            gap: 16px;
+            align-items: stretch;
+            flex-wrap: nowrap;
+        }
+
+        .nota-total-row > .col-md-6 {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+            width: 50% !important;
+        }
+
+        .nota-rapida {
+            min-height: 64px;
+            padding: 8px 10px;
+            background-size: 10px 10px;
+        }
+
+        .nota-rapida-title {
+            font-size: 0.85rem;
+        }
+
+        .nota-rapida-texto {
+            font-size: 0.78rem;
+            line-height: 1.2;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container no-print mt-4">
+    <div class="card app-card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Generador de Cotización</h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Género</label>
+                    <select id="genero" class="form-select">
+                        <option value="Señor">Señor</option>
+                        <option value="Señora">Señora</option>
+                        <option value="Señores">Señores</option>
+                        <option value="Arquitecto">Arquitecto</option>
+                        <option value="Arquitecta">Arquitecta</option>
+                        <option value="Ingeniero">Ingeniero</option>
+                        <option value="Ingeniera">Ingeniera</option>
+                        <option value="Interiorista">Interiorista</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Doctora">Doctora</option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label fw-bold">Nombre del cliente</label>
+                    <input type="text" id="cliente" class="form-control" placeholder="Ingrese el nombre del cliente">
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Producto</label>
+                    <input type="text" id="producto" class="form-control" placeholder="Título del producto">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Descripción</label>
+                    <input type="text" id="productoDescripcion" class="form-control" placeholder="Subtítulo o detalle corto">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Cant.</label>
+                    <input type="number" id="cantidad" class="form-control" placeholder="0" min="1">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Unidad de medida</label>
+                    <select id="unidadCantidad" class="form-select">
+                        <option value="Unidades" selected>Unidades</option>
+                        <option value="Tiras">Tiras</option>
+                        <option value="Metros">Metros</option>
+                        <option value="Metros cuadrados">Metros cuadrados</option>
+                        <option value="Paquetes">Paquetes</option>
+                        <option value="otra">Otra...</option>
+                    </select>
+                    <input type="text" id="unidadPersonalizada" class="form-control mt-2 d-none" placeholder="Escriba la unidad">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Precio unitario</label>
+                    <input type="number" id="precio" class="form-control" placeholder="0" min="1">
+                </div>
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-md-9 campo-imagen">
+                    <label class="form-label fw-bold">Imagen del producto</label>
+                    <input type="file" id="imagenProducto" class="form-control form-control-lg" accept="image/*">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button id="agregarProducto" class="btn btn-success w-100">
+                        <i class="bi bi-plus-circle"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row g-3">
+                <div class="col-md-7">
+                    <label class="form-label fw-bold">Agregar productos en</label>
+                    <select id="opcionActiva" class="form-select">
+                        <option value="1">Opción 1</option>
+                    </select>
+                    <div class="form-text">Puedes volver a una opción anterior para seguir sumando productos.</div>
+                </div>
+                <div class="col-md-5 d-flex align-items-end">
+                    <button id="agregarTabla" class="btn btn-primary w-100">
+                        <i class="bi bi-table"></i> Agregar nueva opción
+                    </button>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label class="form-label fw-bold">Nota rápida</label>
+                    <textarea id="notaRapidaInput" class="form-control" rows="2" placeholder="Escriba una nota corta..."></textarea>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button id="agregarNota" class="btn btn-outline-secondary">Agregar nota</button>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button id="generarPDF" class="btn btn-primary w-100">
+                        <i class="bi bi-download"></i> Exportar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cotizacion-container">
+    <div class="d-flex justify-content-between align-items-center gap-3">
+        <img id="logoPreview" class="logo" src="img/logo.png" alt="Alfombrando logo">
+        <h6 id="fecha" class="mb-0"></h6>
+    </div>
+
+    <p class="mt-4 mb-2">
+        <span id="saludoGenero">Señor:</span><br>
+        <strong id="nombreCliente"></strong>
+    </p>
+
+    <p class="mb-2">Cordial saludo,</p>
+
+    <p>Para Alfombrando es un agrado poner a su disposición la siguiente cotización:</p>
+
+    <div class="tabla-wrapper">
+        <table class="table tabla-cotizacion">
+            <thead>
+                <tr>
+                    <th style="width: 170px;">IVA</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Cantidad</th>
+                    <th class="text-end">Precio unitario</th>
+                    <th class="text-end">Subtotal</th>
+                    <th class="text-end">Total + IVA</th>
+                    <th class="text-center" style="width: 90px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaBody"></tbody>
+        </table>
+    </div>
+
+    <div class="row mt-4 nota-total-row">
+                <div class="col-md-6">
+                    <div id="notaRapidaCard" class="nota-rapida d-none">
+                        <button id="eliminarNota" class="btn btn-outline-danger nota-delete no-print" type="button">✕</button>
+    
+    
+    
+    
+    
+    
+    
+                        <div class="nota-rapida-title">Nota</div>
+                        <div id="notaRapidaTexto" class="nota-rapida-texto"></div>
+                    </div>
+                </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end mb-2 no-print">
+                <button id="toggleTotalesBtn" class="btn btn-outline-secondary btn-sm" type="button">Ocultar total general</button>
+            </div>
+            <div class="border rounded-2 p-3" id="totalesGenerales">
+                <div class="d-flex justify-content-between total-box">
+                    <span>Total general:</span>
+                    <span id="totalGeneral" class="fw-bold">$0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="mt-4 mb-2">En espera de su amable respuesta,</p>
+
+    <p>
+        Atentamente,<br>
+        <span id="nombreVendedor">Alfombrando.</span><br>
+        <span>Teléfono: 3216475836</span>
+        <span id="telefonoVendedor" class="text-muted"></span>
+    </p>
+
+    <div class="footer-comercial">
+        <div>DESINFECTANTES-JABÓNES-DETERGENTES-GUANTES-TRAPEROS-ESCOBAS-BALDES-TAPETES-PAD PARA BRILLADORAS-PAPEL HIGIENICO-TOALLA DE PAPEL- CARROS HOTELEROS-DISPENSADORES</div>
+        <div>CARRERA 18 No. 12-06 TEL. 746-21-22 / 746-18-11 Armenia Quindío</div>
+    </div>
+</div>
+
+<div class="modal fade" id="editarInstalacionModal" tabindex="-1" aria-labelledby="editarInstalacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarInstalacionModalLabel">Editar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="editarTitulo" class="form-label fw-bold">Producto</label>
+                    <input type="text" id="editarTitulo" class="form-control" placeholder="Título del producto">
+                </div>
+                <div class="mb-3">
+                    <label for="editarSubtitulo" class="form-label fw-bold">Descripción</label>
+                    <input type="text" id="editarSubtitulo" class="form-control" placeholder="Subtítulo o detalle corto">
+                </div>
+                <div class="mb-3">
+                    <label for="editarCantidad" class="form-label fw-bold">Cant.</label>
+                    <input type="number" id="editarCantidad" class="form-control" min="1" step="1" placeholder="0">
+                </div>
+                <div class="mb-3">
+                    <label for="editarUnidad" class="form-label fw-bold">Unidad de medida</label>
+                    <select id="editarUnidad" class="form-select">
+                        <option value="Unidades" selected>Unidades</option>
+                        <option value="Tiras">Tiras</option>
+                        <option value="Metros">Metros</option>
+                        <option value="Metros cuadrados">Metros cuadrados</option>
+                        <option value="Paquetes">Paquetes</option>
+                        <option value="otra">Otra...</option>
+                    </select>
+                    <input type="text" id="editarUnidadPersonalizada" class="form-control mt-2 d-none" placeholder="Escriba la unidad">
+                </div>
+                <div class="mb-3 campo-imagen">
+                    <label for="editarImagenProducto" class="form-label fw-bold">Imagen del producto</label>
+                    <input type="file" id="editarImagenProducto" class="form-control form-control-lg" accept="image/*">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="quitarImagenEditar">
+                        <label class="form-check-label" for="quitarImagenEditar">Quitar imagen actual</label>
+                    </div>
+                </div>
+                <div class="mb-0">
+                    <label for="editarPrecio" class="form-label fw-bold">Precio unitario</label>
+                    <input type="number" id="editarPrecio" class="form-control" min="1" step="1" placeholder="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="guardarEdicionInstalacion">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="cotizaciones.js"></script>
+</body>
+</html>
