@@ -671,7 +671,8 @@ function renderizarTabla() {
             <td class="text-end valor-principal">${formatoPeso(normalizarNumero(producto.precio))}</td>
             <td class="text-end valor-principal">${formatoPeso(valores.subtotal)}</td>
             <td class="text-end valor-principal">${formatoPeso(valores.totalMostrado)}</td>
-            <td class="text-center columna-acciones-celda">
+            ${mostrarColumnaImagen ? `<td class="columna-imagen-celda">${renderizarImagenProducto(producto)}</td>` : ""}
+            <td class="text-center columna-acciones-celda no-print">
                 <div class="acciones-wrap">
                     <button class="btn-tabla-accion" onclick="abrirModalEdicion(${producto.id})" aria-label="Editar producto">
                     <i class="bi bi-pencil"></i>
@@ -681,7 +682,6 @@ function renderizarTabla() {
                     </button>
                 </div>
             </td>
-            ${mostrarColumnaImagen ? `<td class="columna-imagen-celda">${renderizarImagenProducto(producto)}</td>` : ""}
         `;
         tbody.appendChild(tr);
     });
