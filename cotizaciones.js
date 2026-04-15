@@ -626,14 +626,32 @@ function renderizarSeleccionIvaProducto(producto, ivaPercent) {
     `;
 }
 
+function tieneImagenProducto(producto) {
+    return Boolean((producto?.imagen || "").trim());
+}
+
+function renderizarImagenProducto(producto) {
+    if (!tieneImagenProducto(producto)) {
+        return '<span class="text-muted">-</span>';
+    }
+
+    return `<img src="${producto.imagen}" alt="Imagen del producto" class="producto-img-tabla">`;
+}
+
 function renderizarTabla() {
     const tbody = document.getElementById("tablaBody");
+    const columnaImagen = document.getElementById("columnaImagen");
+    const mostrarColumnaImagen = productos.some((producto) => tieneImagenProducto(producto));
+
+    if (columnaImagen) {
+        columnaImagen.classList.toggle("d-none", !mostrarColumnaImagen);
+    }
 
     tbody.innerHTML = "";
     if (productos.length === 0) {
         tbody.innerHTML = `
             <tr class="tabla-vacia">
-                <td colspan="7">No hay productos agregados</td>
+                <td colspan="${mostrarColumnaImagen ? 8 : 7}">No hay productos agregados</td>
             </tr>
         `;
         return;
@@ -647,6 +665,7 @@ function renderizarTabla() {
         tr.innerHTML = `
             <td class="seleccion-iva-cell">${renderizarSeleccionIvaProducto(producto, valores.ivaPercent)}</td>
             <td>${renderizarDescripcionProducto(producto)}</td>
+            ${mostrarColumnaImagen ? `<td class="columna-imagen-celda">${renderizarImagenProducto(producto)}</td>` : ""}
             <td class="text-end">
                 ${renderizarCantidadProducto(producto)}
             </td>

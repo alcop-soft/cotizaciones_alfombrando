@@ -190,6 +190,19 @@
         color: #b42318;
     }
 
+    .columna-imagen-celda {
+        text-align: center;
+    }
+
+    .producto-img-tabla {
+        width: 62px;
+        height: 62px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #d0d5dd;
+        background: #f8fafc;
+    }
+
     .descripcion-producto {
         line-height: 1.25;
     }
@@ -614,6 +627,7 @@
                 <tr>
                     <th style="width: 170px;">IVA</th>
                     <th>Descripción</th>
+                    <th id="columnaImagen" class="text-center d-none" style="width: 92px;">Imagen</th>
                     <th class="text-end">Cantidad</th>
                     <th class="text-end">Precio unitario</th>
                     <th class="text-end">Subtotal</th>
