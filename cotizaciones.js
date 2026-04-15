@@ -665,14 +665,13 @@ function renderizarTabla() {
         tr.innerHTML = `
             <td class="seleccion-iva-cell">${renderizarSeleccionIvaProducto(producto, valores.ivaPercent)}</td>
             <td>${renderizarDescripcionProducto(producto)}</td>
-            ${mostrarColumnaImagen ? `<td class="columna-imagen-celda">${renderizarImagenProducto(producto)}</td>` : ""}
             <td class="text-end">
                 ${renderizarCantidadProducto(producto)}
             </td>
             <td class="text-end valor-principal">${formatoPeso(normalizarNumero(producto.precio))}</td>
             <td class="text-end valor-principal">${formatoPeso(valores.subtotal)}</td>
             <td class="text-end valor-principal">${formatoPeso(valores.totalMostrado)}</td>
-            <td class="text-center">
+            <td class="text-center columna-acciones-celda">
                 <div class="acciones-wrap">
                     <button class="btn-tabla-accion" onclick="abrirModalEdicion(${producto.id})" aria-label="Editar producto">
                     <i class="bi bi-pencil"></i>
@@ -682,6 +681,7 @@ function renderizarTabla() {
                     </button>
                 </div>
             </td>
+            ${mostrarColumnaImagen ? `<td class="columna-imagen-celda">${renderizarImagenProducto(producto)}</td>` : ""}
         `;
         tbody.appendChild(tr);
     });
